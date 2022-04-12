@@ -26,6 +26,20 @@ joueur(allemagne,_, [allemagne_1,allemagne_2,allemagne_3])
 
 %Prédicat pour pioche carte (début)--> mise à jour liste cartes secondes (joueur/globale)
 
+insert(X, [], [X]). 
+insert(X, [Y | listeelements], [X,Y | listeelements]) :- X @< Y, !.
+insert(X, [Y | liste1], [Y | liste2]) :- insert(X, liste1, liste2).
+
+repiocher5cartes(nomjoueur,cartessecondes,[],nouvellescartessecondes,cartessecondesrestantes):- miseajourcartessecondesjoueur(nomjoueur,nouvellescartessecondes,_),miseajourcartessecondesliste(cartessecondesrestantes).
+repiocher5cartes(nomjoueur,cartessecondes,[carte|carteschoisies],nouvellescartessecondes,cartessecondesrestantes):- jeu(_,_,joueur(nomjoueur,_,_,_,_),_,deckcartes,_,_), member(carte,deckcartes), delete(deckcartes,carte,cartessecondesrestantes), insert(cartessecondes,carte,nouvellescartessecondes), repiocher5cartes(nomjoueur,cartessecondes,carteschoisies,ncartessec,cartessecrestantes).
+
+
+miseajourcartessecondesliste(nomjoueur,cartessecondesrestantes):- jeu(_,_,joueur(nomjoueur,_,_,_,_),_,cartessecondesrestantes,_,_).
+
+miseajourcartessecondesjoueur(nomjoueur,nouvcartessecondes):- joueur(nomjoueur,nouvcartessecondes,_,_),length(nouvcartessecondes,L), L>0.
+miseajourcartessecondesjoueur(nomjoueur,nouvcartessecondes):- joueur(nomjoueur,nouvcartessecondes,_,_), length(nouvcartessecondes,L), L==0, repiocher5cartes(nomjoueur,nouvcartessecondes,carteschoisies,nouvellescartessecondes).
+
+
 
 /*
 ----------------------
