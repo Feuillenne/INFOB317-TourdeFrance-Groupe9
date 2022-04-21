@@ -835,7 +835,7 @@ calculdistance(Nomcoureur, [c|Coureursderriere],Lidis, Listedistances):- jeu(_,_
 
 
 %estdistanceminimale(Distanceminimale):- Distanceminimale telle que n' existe pas de plus petit selon predicat précédent
-estdistanceminimale(Listedistances,Distanceminimale):- max_list(Listedistances,Distanceminimale).
+estdistanceminimale(Listedistances,Distanceminimale):- min_list(Listedistances,Distanceminimale).
 
 depassement(Nomcoureur,Coureurs,Valeurcarteseconde,Ordrephasedynamique,Prochaincoureur):- Valeurcarteseconde>0,jeu(_,_,_,_,_,_,[[Nomcoureur,idcase1]],_),caselibreapres(idcase1,Coureurs,casesuivantesli,idcase2), peutdepasser(Nomcoureur,Valeurcarteseconde,Coureurs),miseajourpositioncoureur(Nomcoureur,idcase2),valcartesec=Valeurcarteseconde-1,depassement(Nomcoureur,valcartesec),estletourde(Nomcoureur,Ordrephasedynamique,Prochaincoureur).
 
