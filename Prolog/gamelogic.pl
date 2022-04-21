@@ -885,10 +885,19 @@ finjeu(Coureurs):- listecoureurarrive(Listearr),coureurs(Coureurs),foreach(membe
 */
 
 %---------- Aspiration ----------------
+
+coureursdevantli([]).
+estdevant(Coureur,[C|Coureurs],Coureursdevantli,Coureursdevant):- jeu(_,_,_,_,_,_,[[Coureur,Idcase1]],_),jeu(_,_,_,_,_,_,[[C,idcase2]],_),numero(Idcase1,Numero1),numero(Idcase2,Numero2),numero1<numero2,insert(C,Coureursdevantli,Coureursdevant).
+estdistancemaximale(Listedistances,Distancemax):- max_list(Listedistances,Distancemax).
+
 %Condition pour qu'un coureur puisse utiliser le phénomène d'Aspiration
 
 %Un coureur se trouve JUSTE DERRIERE un autre coureur et possibilité d'arriver DERRIERE un autre coureur en utilisant la valeur de la carte seconde +1
 aspiration(Coureur,Valeurcartesec,Casearrivee):- %Verification exists autre coureur avec numero case = numero case +1, nôtre numero +valeurcartesec+1 tel que joueur exists numero valant nôtre numero +valeurcartesec+2
+
+aspiration(Coureur,Valeurcartesec,Casearrivee):- coureurs(Coureurs),jeu(_,_,[[Coureur,Idcase1]],_),estdevant(Coureur,[C|Coureurs],Coureursdevantli,Coureursdevant),calculdistance(Coureur,Coureursdevant,Lidis, Listedistances),estdistancemaximale(Listedistances,Distancemax),Distancemax==-1,Casearrivee is Idcase1+Valeurcartesec+1,numero(Casearrivee,Numero1),Numcaseapres is Numero1+1,numero(Idcase,Numcaseapres),jeu(_,_,[[Coureursuivant,Idcase]],_)
+
+
 %Cas où lettre y réfléchir
 %Un coureur se trouve JUSTE DERRIERE et possibilité d'arriver à côté un autre coureur en utilisant la valeur de la carte seconde +1 ,nôtre numero +valeurcartesec+1 tel que exists même numéro case occupée par autre coureur MAIS position /== ou lettre /==
 aspiration(Coureur,Valeurcartesec,Casearrivee):-%Verification exists autre coureur avec numero case = numero case +1,
